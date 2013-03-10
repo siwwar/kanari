@@ -1,0 +1,621 @@
+// CSS Reset
+@import "reset.less";
+
+@import "variables.less"; // Modify this for custom colors, font-sizes, etc
+@import "mixins.less";
+
+
+nav {
+	@borderscolor: @graylight;
+	@activebg: @white;
+	@tabbg: @graylight;
+	@tabfontcolor:@graylighter;
+	@borderscolor: @graylight;
+	
+	margin-left:auto;
+	margin-right:auto;
+	margin-bottom: @baselineheight;
+	font-size:0px; // collaps the white speaces between inline-block elements
+	line-height:0px; // collaps the white speaces between inline-block elements
+	position:relative;
+	
+	ul,
+	li {
+		margin:0px;
+		padding:0px;
+		list-style:none none inside;		
+	}
+	& > ul > li > ul{
+		display	:none;
+	}
+	& > ul > li {
+			
+	}
+	li {
+		display:inline-block;
+		
+		a {
+			display:block;
+			font-size:@basefontsize;	// set the font size again
+			line-height:@baselineheight; // set the line height again
+		}
+	}
+	
+	a {
+		text-decoration:none;	
+	}
+	
+	
+	//vvv
+	
+	
+		
+	/* add border to the list items */
+	&.bordered {
+		& > ul > li > a {
+			border-top:1px @borderscolor solid;
+			border-bottom:1px @borderscolor solid;
+			border-right:1px @borderscolor solid;	
+		}
+		li li a,
+		li:nth-child(1) a {
+			border-left:1px @borderscolor solid;
+		}
+		li li a{
+			border-bottom:1px @borderscolor solid;
+			border-right:1px @borderscolor solid;
+		}
+		&.dropup {
+			li li:nth-child(1) a{
+				border-top:1px @borderscolor solid;
+			}
+		}
+		&.vertical{
+			@borderscolor: @graylight;
+			
+			li > a {
+				border:1px @borderscolor solid;
+				border-bottom-width:0px;
+			}
+			
+			li:nth-last-child(1) > a {
+				border-bottom-width:1px;
+			}
+		}
+		
+		li.multicols {
+			div.cols {
+				border:1px @borderscolor solid;
+				
+				& > ul {
+					border-right:1px @borderscolor solid;
+					
+					& li > a {
+						border-bottom:1px @borderscolor solid;
+					}
+				}
+			}
+		}
+		&.fullwidth {
+			li.multicols div.cols {
+				border-top-width:0px;	
+			}
+		}
+	}	
+		
+
+	
+	
+	/* make the ul full width based on it's "li" childs */
+	/* this code is for 10 childs only */
+	&.fullwidth {
+		width:100%;
+		& > ul {
+			width:100%;
+			& > li:first-child:nth-last-child(1) {
+				width: 100%;
+			}
+			& > li:first-child:nth-last-child(2),  // select the first "li" child if it is the 5th element on the reverse counting
+			& > li:first-child:nth-last-child(2) ~ li { // select all the "li" elements that following the first child
+				width: 50%;
+			}
+			& > li:first-child:nth-last-child(3),
+			& > li:first-child:nth-last-child(3) ~ li {
+				width: 33.3333%;
+			}
+			& > li:first-child:nth-last-child(4),
+			& > li:first-child:nth-last-child(4) ~ li {
+				width: 25%;
+			}
+			& > li:first-child:nth-last-child(5),
+			& > li:first-child:nth-last-child(5) ~ li {
+				width: 20%;
+			}
+			& > li:first-child:nth-last-child(6),
+			& > li:first-child:nth-last-child(6) ~ li {
+				width: 16.6667%;
+			}
+			& > li:first-child:nth-last-child(7),
+			& > li:first-child:nth-last-child(7) ~ li {
+				width: 14.2857%;
+			}
+			& > li:first-child:nth-last-child(8),
+			& > li:first-child:nth-last-child(8) ~ li {
+				width: 12.5%;
+			}
+			& > li:first-child:nth-last-child(9),
+			& > li:first-child:nth-last-child(9) ~ li {
+				width: 11.1111%;
+			}
+			& > li:first-child:nth-last-child(10),
+			& > li:first-child:nth-last-child(10) ~ li {
+				width: 10%;
+			}
+		}
+	}
+	
+	&.dropdown{
+		li {
+			position:relative;	
+		}
+		li > ul {
+			position:absolute;
+			left:auto;
+			right:auto;
+			top:100%;
+			margin-left:-1px;
+			z-index:@basenavzindex;
+		}
+		li > ul > li{
+			//display:table-row;
+			display:block;
+		}
+		li:hover > ul{
+			display:block;	
+		}
+		
+		&.vertical {
+			@menuwidth: 180px;
+			li {
+				display:block;	
+			}
+			li > ul {
+				left:@menuwidth;
+				top:0px;
+				width:@menuwidth - 45%;
+			}
+			
+			li > ul a{
+				display:block;	
+			}
+			&.pull-right {
+				li > ul {
+					left:auto;
+					right:100%;
+					margin-right:-1px;
+				}
+			}
+		}
+	}
+	
+	&.dropup{
+		li {
+			position:relative;	
+		}
+		li > ul {
+			position:absolute;
+			left:auto;
+			right:auto;
+			bottom: 100%;
+			margin-left:-1px;
+			z-index:@basenavzindex;	
+		}
+		li > ul > li{
+			display:table-row;
+			
+		}
+		li:hover > ul{
+			display:block;	
+		}
+	}	
+	
+	ul,
+	li,
+	a {
+		.box-sizing(border-box);	
+	}
+	
+	
+	&.rounded{
+		& > ul > li:nth-child(1) > a {
+			.border-radius(0px,0px,@baseradius,@baseradius);
+		}
+		& > ul > li:nth-last-child(1) > a {
+			.border-radius(@baseradius,@baseradius,0px,0px);
+		}
+		li li:nth-last-child(1) > a{
+			.border-radius(0px,@baseradius,@baseradius,0px);
+		}
+		
+		&.dropup {
+			li ul {
+				margin-bottom:-1px;
+			}
+			li li:nth-child(1) > a{
+				.border-radius(@baseradius,0px,0px,@baseradius);
+			}
+			li li:nth-last-child(1) > a{
+				.border-radius(0px,0px,0px,0px);
+			}
+		}
+		
+		&.vertical {
+			& > ul > li:nth-child(1) > a {
+				.border-radius(@baseradius,0px,0px,@baseradius);
+			}
+			& > ul > li:nth-last-child(1) > a {
+				.border-radius(0px,@baseradius,@baseradius,0px);
+			}
+			li li:nth-child(1) > a{
+				.border-radius(@baseradius,0px,0px,0px);
+			}				li li:nth-last-child(1) > a{
+				.border-radius(0px,@baseradius,@baseradius,0px);
+			}
+			
+			&.pull-right {
+				li li:nth-child(1) > a{
+					.border-radius(0px,0px,0px,@baseradius);
+				}					
+			}
+		}
+		
+		&.tabbed{
+			& > ul > li > a {
+				.border-radius(@baseradius,0px,0px,@baseradius);
+			}
+			
+			&.vertical {
+				& > ul > li > a {
+					.border-radius(0px,0px,@baseradius,@baseradius);
+				}
+				&.right-tabs {
+					& > ul > li > a{
+						.border-radius(@baseradius,@baseradius,0px,0px);
+					}					
+				}
+			}
+		}
+		
+		li.multicols{
+			div.cols {
+				right:@baseradius;
+				left:@baseradius;
+				.border-radius(@baseradius,@baseradius,@baseradius,0px);	
+				
+				ul li a{
+					.border-radius(0px);	
+				}
+			}
+				
+		}
+		&.fullwidth {
+			li.multicols div.cols {
+				.border-radius(0px,@baseradius,@baseradius,0px);
+			}
+		}
+		
+	}
+			
+	&.tabbed {
+		ul {
+			border-bottom:1px @borderscolor solid;
+			li {
+				margin-bottom:-1px;
+				a {
+					border:1px @borderscolor solid;
+					background-color:@tabbg;
+					color:@tabfontcolor;
+				}
+				a:hover {
+					background-color:@tabfontcolor;
+					color:@tabbg;
+				}
+			}
+			li.active a {
+				.defaultlinkstyle();
+				border:1px @borderscolor solid;
+				border-bottom-color:transparent;
+				background-color:@activebg;
+			}
+		}
+		
+		&.tabbed-btm {
+			ul {
+				border-bottom-width:0px;
+				border-top:1px @borderscolor solid;
+				
+				li {
+					margin-bottom:auto;
+					margin-top:-1px;
+				}
+				li.active a {
+					border-bottom-color:@borderscolor;
+					border-top-color:transparent;
+				}
+			}
+			
+			&.rounded {
+				ul li a {
+					.border-radius(0px,@baseradius,@baseradius,0px);	
+				}
+			}
+			&.bordered {
+					
+			}
+		}
+
+		&.vertical {
+			ul {
+				border-bottom-width:0px;
+				border-right:1px @borderscolor solid;
+				li {
+					margin-bottom:auto;
+					margin-right:-1px;
+				}
+				li.active a{
+					border-bottom-color:@borderscolor;
+					border-right-color:transparent;
+					background-color:@activebg;
+				}
+			}
+			
+			&.right-tabs {
+				float:right;
+				ul {
+					border-right-width:0px;
+					border-left:1px @borderscolor solid;
+					li {
+						margin-right:auto;
+						margin-left:-1px;
+					}
+					li.active a{
+						border-right-color:@borderscolor;
+						border-left-color:transparent;
+						background-color:@activebg;
+					}
+				}						
+			}
+			&.left-tabs {
+				float:left;
+			}
+		}
+		
+	}
+	
+	
+	li.multicols {
+		position:static;
+		&:hover > div.cols{
+			display:block;	
+		}
+		div.cols {
+			display:none;
+			.box-sizing();
+						
+			position:absolute;
+			right:0px;
+			left:0px;
+			top:100%;
+			
+			z-index:@fixednav-zindex;
+			
+			margin-top:-1px;
+			margin-right:1px;
+			
+			padding:1.5em;
+			padding-bottom:0px;
+			padding-right:0px;
+			
+			line-height: 16px;
+			font-size: 13px;
+			
+				ul {
+					width: 23.5%;
+					float:left;
+					
+					margin-right:2%;
+					padding-right:2%;
+					margin-bottom:1.5em;					
+					
+					li {
+						float:none;
+						display:block;
+						
+						h4 {
+							padding:0px;
+							margin:0px;	
+							margin-bottom:0.5em;	
+							color:@borderscolor;
+						}
+						
+						a {
+							border:0px;
+							float:none;
+							display:block;
+							padding:3px;
+						}
+						
+						&:nth-last-child(1) > a{
+							border-bottom-width:0px;
+						}
+					}
+					
+					
+					&:first-child:nth-last-child(1) {
+						/* specafic width for 1 cols menu */
+						width: 23.5%;
+					}
+					&:first-child:nth-last-child(2),
+					&:first-child:nth-last-child(2) ~ ul {
+						/* specafic width for 2 cols menu */
+						width: 23.5%;
+						
+					}
+					&:first-child:nth-last-child(3),
+					&:first-child:nth-last-child(3) ~ ul {
+						/* specafic width for 3 cols menu */
+						width: 23.5%;
+					}
+					&:first-child:nth-last-child(4),
+					&:first-child:nth-last-child(4) ~ ul {
+						/* specafic width for 4 cols menu */
+						width: 23.5%;
+					}
+					
+					&:nth-child(4n),
+					&:nth-last-child(1) {
+						margin-right:0%;
+						border-right-width:0px;	
+						
+					}
+					
+					&:nth-child(5n){
+						clear:both;
+					}
+					
+					
+				}
+				
+				
+		}
+	}
+
+
+	
+	&.pull-right {
+		float:right;
+		.clearfix();
+	}
+	
+	&.pull-left {
+		float:left;
+		.clearfix();
+	}
+}
+
+.vertical {
+	@menuwidth: 180px;
+	ul{
+	width:@menuwidth;			
+	}
+	li {
+		display:block;
+		 
+		a {
+			display:block;
+			font-size:@basefontsize;	// set the font size again
+			line-height:@baselineheight; // set the line height again
+		}
+	}
+}	
+
+.nav-fixed-bottom,
+.nav-fixed-top{
+	position:fixed;
+	z-index:@fixednav-zindex;
+	right:0px;
+	left:0px;
+}
+.nav-fixed-right,
+.nav-fixed-left{
+	position:fixed;
+	z-index:@fixednav-zindex;
+	top:0px;
+	bottom:0px;
+}
+.nav-fixed-top{
+	top:0px;
+		
+	nav {
+		margin:auto;
+		&.rounded {
+			ul li:nth-child(1) > a {
+				.border-radius(0px,0px,@baseradius,0px);	
+			}
+			ul li:nth-last-child(1) > a {
+				.border-radius(0px,@baseradius,0px,0px);	
+			}
+			li li:nth-child(1) > a {
+				.border-radius(0px,0px,0px,0px);	
+			}
+			li li:nth-last-child(1) > a {
+				.border-radius(0px,@baseradius,@baseradius,0px);	
+			}
+		}
+	}
+}
+
+.nav-fixed-bottom{
+	bottom:0px;
+		
+	nav {
+		margin:auto;
+		&.rounded {
+			ul li:nth-child(1) > a {
+				.border-radius(0px,0px,0px,@baseradius);	
+			}
+			ul li:nth-last-child(1) > a {
+				.border-radius(@baseradius,0px,0px,0px);	
+			}
+			li li:nth-child(1) > a {
+				
+				.border-radius(@baseradius,0px,0px,@baseradius);	
+			}
+			li li:nth-last-child(1) > a {
+				.border-radius(0px,0px,0px,0px);	
+			}
+		}
+	}
+}
+
+.nav-fixed-right{
+	right:0px;
+		
+	nav {
+		margin:auto;
+		.vertical();
+		
+		&.rounded {
+			ul li:nth-child(1) > a {
+				.border-radius(@baseradius,0px,0px,@baseradius);	
+			}
+			ul li:nth-last-child(1) > a {
+				.border-radius(0px,@baseradius,@baseradius,0px);	
+			}
+		}
+	}
+}
+
+
+.nav-fixed-left{
+	left:0px;
+		
+	nav {
+		margin:auto;
+		.vertical();
+		
+		&.rounded {
+			ul li:nth-child(1) > a {
+				.border-radius(@baseradius,0px,0px,@baseradius);	
+			}
+			ul li:nth-last-child(1) > a {
+				.border-radius(0px,@baseradius,@baseradius,0px);	
+			}
+			li li:nth-child(1) > a {
+				
+				.border-radius(@baseradius,0px,0px,0px);	
+			}
+		}
+	}
+}
+
